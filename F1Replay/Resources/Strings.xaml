@@ -1,0 +1,25 @@
+﻿<ResourceDictionary xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+                    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+                    xmlns:system="clr-namespace:System;assembly=System.Runtime">
+    
+ <!-- System -->
+    <system:String x:Key="App_Title">F1 Race Replay</system:String>
+    
+ <!-- Nav Bar -->
+    <system:String x:Key="Home">Dash Board</system:String>
+    <system:String x:Key="Races">Races</system:String>
+    <system:String x:Key="Results">Results</system:String>
+    <system:String x:Key="Circuits">Circuits</system:String>
+    <system:String x:Key="Drivers">Drivers</system:String>
+    <system:String x:Key="Driver_Standings">Driver Standings</system:String>
+    
+<!-- Page Content -->
+    
+    <!-- Races -->
+    <system:String x:Key="Race_Content">This Page Will Eventually Contain A List Of When And Where Races Were Held.</system:String>
+    
+    <!-- Results -->
+    <system:String x:Key="Results_Content">This Page Will Eventually Contain All The Results For Races.</system:String>
+    
+</ResourceDictionary>
+    
