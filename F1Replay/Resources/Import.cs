@@ -12,7 +12,7 @@ namespace F1Replay.Resources
         {
         // Initialization.
             bool hasHeader = true;
-            string importFilePath = "C:\\Users\\smurf\\Desktop\\f1db_csv\\results.csv";
+            string importFilePath = "./Database/RawData/results.csv";
         //string exportFilePath = "C:\\export.csv";
 
         // Import CSV file.
