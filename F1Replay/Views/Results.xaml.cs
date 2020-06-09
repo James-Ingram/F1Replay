@@ -57,7 +57,6 @@ namespace F1Replay.Views
         // Make The Column Headers Friendlier
         private DataTable ParseHeaders(DataTable data)
         {
-            DataTable HeaderCorrectedDate;
             foreach (DataColumn c in data.Columns)
             {
                 switch (c.ColumnName)
@@ -77,7 +76,7 @@ namespace F1Replay.Views
                             c.ColumnName = "Driver";
                             break;
                         }
-                    case "ConstructorId":
+                    case "constructorId":
                         {
                             c.ColumnName = "Constructor";
                             break;
@@ -156,7 +155,6 @@ namespace F1Replay.Views
                 }
             }
 
-            HeaderCorrectedDate = data;
             return data;
         }
     }
