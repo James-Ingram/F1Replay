@@ -1,8 +1,5 @@
-﻿using System;
-using System.Data;
+﻿using System.Data;
 using System.Data.SqlClient;
-using System.Diagnostics;
-using System.Windows.Controls;
 
 namespace F1Replay.Resources
 {
@@ -13,15 +10,56 @@ namespace F1Replay.Resources
         // Initialization.
             bool hasHeader = true;
             string importFilePath = "./Database/RawData/results.csv";
-        //string exportFilePath = "C:\\export.csv";
 
         // Import CSV file.
             DataTable data = CSVLibraryAK.Import(importFilePath, hasHeader);
             data.TableName = "Results";
 
-            // foreach(DataColumn header in data.Columns) Debug.Print(header.ColumnName);
+            //Adjust DataTypes
+            DataTable dtCloned = data.Clone();
+            dtCloned.Columns["raceId"].DataType = typeof(int);
+            dtCloned.Columns["resultId"].DataType = typeof(int);
+            dtCloned.Columns["constructorId"].DataType = typeof(int);
+            dtCloned.Columns["number"].DataType = typeof(int);
+            dtCloned.Columns["grid"].DataType = typeof(int);
+            dtCloned.Columns["position"].DataType = typeof(int);
+            dtCloned.Columns["positionOrder"].DataType = typeof(int);
+            dtCloned.Columns["points"].DataType = typeof(float);
+            dtCloned.Columns["laps"].DataType = typeof(int);
+            dtCloned.Columns["milliseconds"].DataType = typeof(int);
+            dtCloned.Columns["fastestLap"].DataType = typeof(int);
+            dtCloned.Columns["rank"].DataType = typeof(int);
+            dtCloned.Columns["statusId"].DataType = typeof(int);
+            foreach (DataRow row in data.Rows)
+            {
+                dtCloned.ImportRow(row);
+            }
             ClearTable("Results", connection);
-            Add_Table_To_Database(connection, data);
+            Add_Table_To_Database(connection, dtCloned);
+        }
+
+        public static void Races(SqlConnection connection)
+        {
+            // Initialization.
+            bool hasHeader = true;
+            string importFilePath = "./Database/RawData/races.csv";
+
+            //Import Diretly From CSV
+            DataTable data = CSVLibraryAK.Import(importFilePath, hasHeader);
+            data.TableName = "races";
+
+            //Adjust DataTypes
+            DataTable dtCloned = data.Clone();
+            dtCloned.Columns["raceId"].DataType = typeof(int);
+            dtCloned.Columns["round"].DataType = typeof(int);
+            dtCloned.Columns["circuitId"].DataType = typeof(int);
+            foreach (DataRow row in data.Rows)
+            {
+                dtCloned.ImportRow(row);
+            }
+            ClearTable("Races", connection);
+            Add_Table_To_Database(connection, dtCloned);
+            
         }
 
         private static void ClearTable(string table, SqlConnection connection)
@@ -39,10 +77,10 @@ namespace F1Replay.Resources
         {
             connection.Open();
             using SqlBulkCopy bulkCopy = new SqlBulkCopy(connection);
-            foreach (DataColumn c in data.Columns)
-            {
-                bulkCopy.ColumnMappings.Add(c.ColumnName, c.ColumnName);
-            }
+           //  foreach (DataColumn c in data.Columns)
+           //  {
+           //     bulkCopy.ColumnMappings.Add(c.ColumnName, c.ColumnName);
+           // }
 
             bulkCopy.DestinationTableName = data.TableName;
 

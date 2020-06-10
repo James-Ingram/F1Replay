@@ -14,6 +14,7 @@ namespace F1Replay
         {
             SqlConnection connection = new SqlConnection(Settings.Default.connection_String);
             Import.Results(connection);
+            Import.Races(connection);
         }
 
     }
