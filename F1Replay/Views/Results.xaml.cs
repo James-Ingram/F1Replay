@@ -23,9 +23,8 @@ namespace F1Replay.Views
             // data.Columns.Remove("positionText");
             // data.Columns.Remove("milliseconds");
             // data.Columns.Remove("positionOrder");
-            DataTable HeaderCorrectedDate = ParseHeaders(AllData);
 
-            ResultsTable.ItemsSource = HeaderCorrectedDate.DefaultView;
+            ResultsTable.ItemsSource = ParseHeaders(AllData).DefaultView;
         }
 
 
@@ -33,9 +32,10 @@ namespace F1Replay.Views
         private void ChangeView(object sender, RoutedEventArgs e)
         {
             string v = "18";
+            string column = "raceID";
             SqlConnection connection = new SqlConnection(Settings.Default.connection_String);
 
-            DataTable rawResults = GetResults(connection, "Select * FROM RESULTS WHERE raceId="+v);
+            DataTable rawResults = GetResults(connection, "Select * FROM RESULTS WHERE "+column+"="+v);
             ResultsTable.ItemsSource = ParseHeaders(rawResults).DefaultView;
         }
 
