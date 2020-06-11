@@ -17,9 +17,6 @@ using System.Windows.Shapes;
 
 namespace F1Replay
 {
-    /// <summary>
-    /// Interaction logic for MainWindow.xaml
-    /// </summary>
     public partial class MainWindow : Window
     {
         public MainWindow()
@@ -28,6 +25,7 @@ namespace F1Replay
             StateChanged += MainWindowStateChangeRaised;
         }
 
+        // Navigation
         private void HomePage(object sender, RoutedEventArgs e)
         {
             DynamicContent.Navigate(new Uri("Views/Races.xaml", UriKind.Relative));
@@ -42,11 +40,11 @@ namespace F1Replay
         }
         private void CircuitsPage(object sender, RoutedEventArgs e)
         {
-            MessageBox.Show("Circuits Page Switch, Eventually...", "This is a WIP Feature");
+            DynamicContent.Navigate(new Uri("Views/Circuits.xaml", UriKind.Relative));
         }
         private void DriversPage(object sender, RoutedEventArgs e)
         {
-            MessageBox.Show("Drivers Page Switch, Eventually...", "This is a WIP Feature");
+            DynamicContent.Navigate(new Uri("Views/Drivers.xaml", UriKind.Relative));
         }
         private void DriverStandingsPage(object sender, RoutedEventArgs e)
         {

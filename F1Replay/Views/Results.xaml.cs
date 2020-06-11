@@ -1,9 +1,9 @@
-﻿using System;
-using System.Windows.Controls;
+﻿using System.Windows.Controls;
 using System.Data;
 using System.Data.SqlClient;
 using F1Replay.Properties;
 using System.Windows;
+using F1Replay.Resources;
 
 namespace F1Replay.Views
 {
@@ -18,7 +18,7 @@ namespace F1Replay.Views
             InitializeComponent();
             SqlConnection connection = new SqlConnection(Settings.Default.connection_String);
 
-            DataTable AllData = GetResults(connection, "SELECT * FROM Results");
+            DataTable AllData = QueryResults.Get(connection, "SELECT * FROM Results");
 
             // data.Columns.Remove("positionText");
             // data.Columns.Remove("milliseconds");
@@ -35,24 +35,9 @@ namespace F1Replay.Views
             string column = "raceID";
             SqlConnection connection = new SqlConnection(Settings.Default.connection_String);
 
-            DataTable rawResults = GetResults(connection, "Select * FROM RESULTS WHERE "+column+"="+v);
+            DataTable rawResults = QueryResults.Get(connection, "Select * FROM RESULTS WHERE "+column+"="+v);
             ResultsTable.ItemsSource = ParseHeaders(rawResults).DefaultView;
-        }
-
-
-        private DataTable GetResults(SqlConnection connection, String command)
-        {            
-            connection.Open();
-            using SqlCommand cmd = new SqlCommand(command, connection)
-            {
-                CommandType = CommandType.Text
-            };
-            SqlDataAdapter sda = new SqlDataAdapter(cmd);
-            DataTable dt = new DataTable();
-            sda.Fill(dt);
-            connection.Close();
-            return dt;
-        }        
+        }   
         
         // Make The Column Headers Friendlier
         private DataTable ParseHeaders(DataTable data)

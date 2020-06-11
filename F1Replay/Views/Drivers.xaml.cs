@@ -6,28 +6,26 @@ using System.Data.SqlClient;
 using System.Windows;
 using System.Windows.Controls;
 
-namespace WpfApp1.Views
+namespace F1Replay.Views
 {
-    public partial class Races : Page
+    public partial class Drivers : Page
     {
-        public Races()
+        public Drivers()
         {
             InitializeComponent();
             SqlConnection connection = new SqlConnection(Settings.Default.connection_String);
 
-            DataTable allData = QueryResults.Get(connection, "SELECT * FROM Races");
+            DataTable AllData = QueryResults.Get(connection, "SELECT * FROM Drivers");
 
-            ResultsTable.ItemsSource = ParseHeaders(allData).DefaultView;
+            ResultsTable.ItemsSource = ParseHeaders(AllData).DefaultView;
         }
-
-
         private void ChangeView(object sender, RoutedEventArgs e)
         {
-            string v = "%australian%";
-            string column = "name";
+            string v = "%NOR%";
+            string column = "code";
             SqlConnection connection = new SqlConnection(Settings.Default.connection_String);
 
-            DataTable rawResults = QueryResults.Get(connection, "Select * FROM RACES WHERE " + column + " LIKE '" + v+"'");
+            DataTable rawResults = QueryResults.Get(connection, "Select * FROM DRIVERS WHERE " + column + " LIKE '" + v + "'");
             ResultsTable.ItemsSource = ParseHeaders(rawResults).DefaultView;
         }
 
@@ -37,44 +35,49 @@ namespace WpfApp1.Views
             {
                 switch (c.ColumnName)
                 {
-                    case "raceId":
+                    case "driverId":
                         {
-                            c.ColumnName = "Race";
+                            c.ColumnName = "Id";
                             break;
                         }
-                    case "year":
+                    case "driverRef":
                         {
-                            c.ColumnName = "Year";
+                            c.ColumnName = "Driver Reference";
                             break;
                         }
-                    case "round":
+                    case "number":
                         {
-                            c.ColumnName = "Round";
+                            c.ColumnName = "Driver Number";
                             break;
                         }
-                    case "circuitId":
+                    case "code":
                         {
-                            c.ColumnName = "Circuit";
+                            c.ColumnName = "Code";
                             break;
                         }
-                    case "name":
+                    case "forename":
                         {
-                            c.ColumnName = "Grand Prix Name";
+                            c.ColumnName = "First Name";
                             break;
                         }
-                    case "date":
+                    case "lastName":
                         {
-                            c.ColumnName = "Date";
+                            c.ColumnName = "Last Name";
                             break;
                         }
-                    case "time":
+                    case "dob":
                         {
-                            c.ColumnName = "Time";
+                            c.ColumnName = "Date Of Birth";
+                            break;
+                        }
+                    case "nationality":
+                        {
+                            c.ColumnName = "Nationality";
                             break;
                         }
                     case "url":
                         {
-                            c.ColumnName = "Wiki Page Link";
+                            c.ColumnName = "Url";
                             break;
                         }
                 }
@@ -82,6 +85,5 @@ namespace WpfApp1.Views
 
             return data;
         }
-
     }
 }

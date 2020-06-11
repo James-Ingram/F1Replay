@@ -1,5 +1,7 @@
-﻿using System.Data;
+﻿using System;
+using System.Data;
 using System.Data.SqlClient;
+using System.Globalization;
 
 namespace F1Replay.Resources
 {
@@ -61,6 +63,59 @@ namespace F1Replay.Resources
             Add_Table_To_Database(connection, dtCloned);
             
         }
+        public static void Drivers(SqlConnection connection)
+        {
+            // Initialization.
+            bool hasHeader = true;
+            string importFilePath = "./Database/RawData/drivers.csv";
+
+            //Import Diretly From CSV
+            DataTable data = CSVLibraryAK.Import(importFilePath, hasHeader);
+            data.TableName = "drivers";
+
+            //Adjust DataTypes
+            DataTable dtCloned = data.Clone();
+            dtCloned.Columns["driverId"].DataType = typeof(int);
+            dtCloned.Columns["number"].DataType = typeof(int);
+            dtCloned.Columns["dob"].DataType = typeof(DateTime);
+            string format = "yyyy-MM-dd";
+            foreach (DataRow row in data.Rows)
+            {
+                DateTime date;
+                DateTime.TryParseExact(row["dob"].ToString(), format, CultureInfo.InvariantCulture, DateTimeStyles.None, out date);
+                row["dob"] = date;
+                dtCloned.ImportRow(row);
+            }
+            ClearTable("Drivers", connection);
+            Add_Table_To_Database(connection, dtCloned);
+
+        }
+        public static void Circuits(SqlConnection connection)
+        {
+            // Initialization.
+            bool hasHeader = true;
+            string importFilePath = "./Database/RawData/circuits.csv";
+
+            //Import Diretly From CSV
+            DataTable data = CSVLibraryAK.Import(importFilePath, hasHeader);
+            data.TableName = "circuits";
+
+            //Adjust DataTypes
+            DataTable dtCloned = data.Clone();
+            dtCloned.Columns["circuitId"].DataType = typeof(int);
+            dtCloned.Columns["lat"].DataType = typeof(float);
+            dtCloned.Columns["lng"].DataType = typeof(float);
+            dtCloned.Columns["alt"].DataType = typeof(int);
+
+            foreach (DataRow row in data.Rows)
+            {
+                dtCloned.ImportRow(row);
+            }
+            ClearTable("Circuits", connection);
+            Add_Table_To_Database(connection, dtCloned);
+
+        }
+
 
         private static void ClearTable(string table, SqlConnection connection)
         {
@@ -77,10 +132,6 @@ namespace F1Replay.Resources
         {
             connection.Open();
             using SqlBulkCopy bulkCopy = new SqlBulkCopy(connection);
-           //  foreach (DataColumn c in data.Columns)
-           //  {
-           //     bulkCopy.ColumnMappings.Add(c.ColumnName, c.ColumnName);
-           // }
 
             bulkCopy.DestinationTableName = data.TableName;
 

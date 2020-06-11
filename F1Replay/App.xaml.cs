@@ -5,9 +5,6 @@ using F1Replay.Resources;
 
 namespace F1Replay
 {
-    /// <summary>
-    /// Interaction logic for App.xaml
-    /// </summary>
     public partial class App : Application
     {
         void App_Startup(object sender, StartupEventArgs e)
@@ -15,6 +12,8 @@ namespace F1Replay
             SqlConnection connection = new SqlConnection(Settings.Default.connection_String);
             Import.Results(connection);
             Import.Races(connection);
+            Import.Circuits(connection);
+            Import.Drivers(connection);
         }
 
     }
