@@ -7,9 +7,7 @@ using F1Replay.Resources;
 
 namespace F1Replay.Views
 {
-    /// <summary>
-    /// Interaction logic for Results.xaml
-    /// </summary>
+
     public partial class Results : Page
     {
 
@@ -19,10 +17,6 @@ namespace F1Replay.Views
             SqlConnection connection = new SqlConnection(Settings.Default.connection_String);
 
             DataTable AllData = QueryResults.Get(connection, "SELECT * FROM Results");
-
-            // data.Columns.Remove("positionText");
-            // data.Columns.Remove("milliseconds");
-            // data.Columns.Remove("positionOrder");
 
             ResultsTable.ItemsSource = ParseHeaders(AllData).DefaultView;
         }

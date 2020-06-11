@@ -55,8 +55,14 @@ namespace F1Replay.Resources
             dtCloned.Columns["raceId"].DataType = typeof(int);
             dtCloned.Columns["round"].DataType = typeof(int);
             dtCloned.Columns["circuitId"].DataType = typeof(int);
+            dtCloned.Columns["date"].DataType = typeof(DateTime);
+            string format = "yyyy-MM-dd";
+
             foreach (DataRow row in data.Rows)
-            {
+            { 
+                DateTime date;
+                DateTime.TryParseExact(row["date"].ToString(), format, CultureInfo.InvariantCulture, DateTimeStyles.None, out date);
+                row["date"] = date;
                 dtCloned.ImportRow(row);
             }
             ClearTable("Races", connection);

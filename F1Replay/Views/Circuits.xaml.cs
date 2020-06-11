@@ -15,7 +15,7 @@ namespace F1Replay.Views
             SqlConnection connection = new SqlConnection(Settings.Default.connection_String);
 
             DataTable AllData = QueryResults.Get(connection, "SELECT * FROM Circuits");
-
+            AllData.Columns.Remove("alt");
             ResultsTable.ItemsSource = ParseHeaders(AllData).DefaultView;
         }
         private void ChangeView(object sender, RoutedEventArgs e)
@@ -36,6 +36,11 @@ namespace F1Replay.Views
                     case "circuitId":
                         {
                             c.ColumnName = "Id";
+                            break;
+                        }
+                    case "circuitRef":
+                        {
+                            c.ColumnName = "Reference";
                             break;
                         }
                     case "name":

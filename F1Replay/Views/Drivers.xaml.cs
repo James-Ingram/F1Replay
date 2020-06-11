@@ -60,7 +60,7 @@ namespace F1Replay.Views
                             c.ColumnName = "First Name";
                             break;
                         }
-                    case "lastName":
+                    case "surname":
                         {
                             c.ColumnName = "Last Name";
                             break;
