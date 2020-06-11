@@ -1,80 +1,81 @@
 ﻿using F1Replay.Properties;
-using F1Replay.Resources;
-using System;
 using System.Data;
 using System.Data.SqlClient;
-using System.Windows;
 using System.Windows.Controls;
+using F1Replay.Resources;
+using System.Windows;
 
-namespace WpfApp1.Views
-{
-    public partial class Races : Page
+namespace F1Replay.Views
+{ 
+    public partial class Circuits : Page
     {
-        public Races()
+        public Circuits()
         {
             InitializeComponent();
             SqlConnection connection = new SqlConnection(Settings.Default.connection_String);
 
-            DataTable allData = QueryResults.Get(connection, "SELECT * FROM Races");
-
-            ResultsTable.ItemsSource = ParseHeaders(allData).DefaultView;
+            DataTable AllData = QueryResults.Get(connection, "SELECT * FROM Circuits");
+            AllData.Columns.Remove("alt");
+            ResultsTable.ItemsSource = ParseHeaders(AllData).DefaultView;
         }
-
-
         private void ChangeView(object sender, RoutedEventArgs e)
         {
-            string v = "%australian%";
-            string column = "name";
+            string v = "%australia%";
+            string column = "country";
             SqlConnection connection = new SqlConnection(Settings.Default.connection_String);
 
-            DataTable rawResults = QueryResults.Get(connection, "Select * FROM RACES WHERE " + column + " LIKE '" + v+"'");
+            DataTable rawResults = QueryResults.Get(connection, "Select * FROM CIRCUITS WHERE " + column + " LIKE '" + v + "'");
             ResultsTable.ItemsSource = ParseHeaders(rawResults).DefaultView;
         }
-
         private DataTable ParseHeaders(DataTable data)
         {
             foreach (DataColumn c in data.Columns)
             {
                 switch (c.ColumnName)
                 {
-                    case "raceId":
-                        {
-                            c.ColumnName = "Race";
-                            break;
-                        }
-                    case "year":
-                        {
-                            c.ColumnName = "Year";
-                            break;
-                        }
-                    case "round":
-                        {
-                            c.ColumnName = "Round";
-                            break;
-                        }
                     case "circuitId":
                         {
-                            c.ColumnName = "Circuit";
+                            c.ColumnName = "Id";
+                            break;
+                        }
+                    case "circuitRef":
+                        {
+                            c.ColumnName = "Reference";
                             break;
                         }
                     case "name":
                         {
-                            c.ColumnName = "Grand Prix Name";
+                            c.ColumnName = "Name";
                             break;
                         }
-                    case "date":
+                    case "location":
                         {
-                            c.ColumnName = "Date";
+                            c.ColumnName = "Location";
                             break;
                         }
-                    case "time":
+                    case "country":
                         {
-                            c.ColumnName = "Time";
+                            c.ColumnName = "Country";
+                            break;
+                        }
+                    case "lat":
+                        {
+                            c.ColumnName = "Latitude";
+                            break;
+                        }
+                    case "lng":
+                        {
+                            c.ColumnName = "Longitude";
+                            break;
+                        }
+                    case "alt":
+                        {
+                            c.ColumnName = "Altitude";
                             break;
                         }
                     case "url":
                         {
-                            c.ColumnName = "Wiki Page Link";
+                            c.ColumnName = "Url";
                             break;
                         }
                 }
@@ -82,6 +83,5 @@ namespace WpfApp1.Views
 
             return data;
         }
-
     }
 }

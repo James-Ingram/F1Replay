@@ -16,7 +16,8 @@
             </ResourceDictionary.MergedDictionaries>
         </ResourceDictionary>
     </Page.Resources>
-    <Grid>
-        <TextBlock Style="{StaticResource DarkTextBlockStyle}" Text="{StaticResource Race_Content}"/>
-    </Grid>
+    <DockPanel>
+        <DataGrid DockPanel.Dock="left" AutoGenerateColumns="True" x:Name="ResultsTable" ItemsSource="{Binding}"/>
+        <Button DockPanel.Dock="right" x:Name="filter" Click="ChangeView" Content="Filter...maybe?" Height="auto"/>
+    </DockPanel>
 </Page>
