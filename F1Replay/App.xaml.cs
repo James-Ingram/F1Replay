@@ -14,6 +14,7 @@ namespace F1Replay
             Import.Races(connection);
             Import.Circuits(connection);
             Import.Drivers(connection);
+            Import.DriversStandings(connection);
         }
 
     }

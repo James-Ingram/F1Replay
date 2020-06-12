@@ -10,11 +10,10 @@ namespace F1Replay.Resources
         public static void Results(SqlConnection connection)
         {
         // Initialization.
-            bool hasHeader = true;
             string importFilePath = "./Database/RawData/results.csv";
 
         // Import CSV file.
-            DataTable data = CSVLibraryAK.Import(importFilePath, hasHeader);
+            DataTable data = CSVLibraryAK.Import(importFilePath, true);
             data.TableName = "Results";
 
             //Adjust DataTypes
@@ -118,6 +117,33 @@ namespace F1Replay.Resources
                 dtCloned.ImportRow(row);
             }
             ClearTable("Circuits", connection);
+            Add_Table_To_Database(connection, dtCloned);
+
+        }
+        public static void DriversStandings(SqlConnection connection)
+        {
+            // Initialization.
+            bool hasHeader = true;
+            string importFilePath = "./Database/RawData/driver_standings.csv";
+
+            //Import Diretly From CSV
+            DataTable data = CSVLibraryAK.Import(importFilePath, hasHeader);
+            data.TableName = "DriverStandings";
+
+            //Adjust DataTypes
+            DataTable dtCloned = data.Clone();
+            dtCloned.Columns["driverStandingsId"].DataType = typeof(int);
+            dtCloned.Columns["points"].DataType = typeof(float);
+            dtCloned.Columns["driverId"].DataType = typeof(int);
+            dtCloned.Columns["raceId"].DataType = typeof(int);
+            dtCloned.Columns["position"].DataType = typeof(int);
+            dtCloned.Columns["wins"].DataType = typeof(int);
+
+            foreach (DataRow row in data.Rows)
+            {
+                dtCloned.ImportRow(row);
+            }
+            ClearTable("DriverStandings", connection);
             Add_Table_To_Database(connection, dtCloned);
 
         }

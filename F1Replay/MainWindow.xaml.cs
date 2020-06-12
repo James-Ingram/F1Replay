@@ -36,7 +36,7 @@ namespace F1Replay
         }
         private void DriverStandingsPage(object sender, RoutedEventArgs e)
         {
-            MessageBox.Show("Driver Standings Page Switch, Eventually...", "This is a WIP Feature");
+            DynamicContent.Navigate(new Uri("Views/DriversStandings.xaml", UriKind.Relative));
         }
 
 
